@@ -1,0 +1,22 @@
+info:
+  name: GETW2
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: http://localhost:3000/users?page=2&limit=5
+  params:
+    - name: page
+      value: "2"
+      type: query
+    - name: limit
+      value: "5"
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
