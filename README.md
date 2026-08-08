@@ -6,6 +6,14 @@ REST API для управления пользователями, постро�
 
 ---
 
+## Live Demo
+
+- **API:** https://express-app-r5qh.onrender.com
+- **Swagger:** https://express-app-r5qh.onrender.com/docs
+- **Health Check:** https://express-app-r5qh.onrender.com/health
+
+---
+
 ## Технологический стек
 
 | Технология            | Назначение                           |
@@ -21,6 +29,7 @@ REST API для управления пользователями, постро�
 | **Swagger / OpenAPI** | Документирование API                 |
 | **Docker**            | Контейнеризация                      |
 | **Docker Compose**    | Управление локальной инфраструктурой |
+| **GitHub Actions**    | Настроенный CI/CD для разработки     |
 
 ---
 
