@@ -6,17 +6,26 @@ import { errorMiddleware } from "./middleware/error.middleware.js";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger.js";
 
+import healthRoutes from "./routes/health.routes.js";
+
 const app = express();
 
 // Парсинг JSON тела запроса
 app.use(express.json());
 
-// Health check
-app.get("/health", (_req, res) => {
+//Base page
+app.get("/", (_req, res) => {
   res.status(200).json({
-    status: "ok",
+    name: "Express App API",
+    message: "API is running",
+    version: "1.0.0",
+    docs: "/docs",
+    health: "/health",
   });
 });
+
+// Health check
+app.use("/health", healthRoutes);
 
 // Swagger
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
