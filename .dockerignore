@@ -1,8 +1,17 @@
 node_modules
 dist
+
 .git
+.github
+
 .env
 .env.*
+!.env.example
+
 coverage
 .vscode
 .idea
+
+*.log
+
+README.md
