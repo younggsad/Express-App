@@ -2,130 +2,72 @@
 
 REST API для управления пользователями, построенный на **Node.js + Express + TypeScript + Prisma + PostgreSQL**.
 
-Проект создан как backend practice project с акцентом на **чистую архитектуру, валидацию данных, обработку ошибок, тестирование, Swagger-документацию и Docker**.
+Проект создан как backend-практика с акцентом на **чистую архитектуру, валидацию данных, обработку ошибок, тестирование, Swagger-документацию и Docker**.
 
 ---
 
-## Tech Stack
+## Технологический стек
 
-| Technology            | Purpose                  |
-| --------------------- | ------------------------ |
-| **Node.js 22**        | JavaScript runtime       |
-| **TypeScript**        | Static typing            |
-| **Express 5**         | HTTP server and REST API |
-| **Prisma 7**          | ORM                      |
-| **PostgreSQL 17**     | Relational database      |
-| **Zod**               | Request validation       |
-| **Vitest**            | Testing                  |
-| **Supertest**         | HTTP API testing         |
-| **Swagger / OpenAPI** | API documentation        |
-| **Docker**            | Containerization         |
-| **Docker Compose**    | Local infrastructure     |
-
----
-
-## Features
-
-- CRUD operations for users
-- Request validation with **Zod**
-- Centralized error handling
-- Custom application errors
-- Prisma error handling
-- Duplicate email protection
-- Pagination
-- Search users by name or email
-- Sorting users
-- Automated API tests
-- Swagger / OpenAPI documentation
-- PostgreSQL running in Docker
-- Production Docker image with multi-stage build
-- TypeScript type checking
-- Production build
+| Технология            | Назначение                           |
+| --------------------- | ------------------------------------ |
+| **Node.js 22**        | Среда выполнения JavaScript          |
+| **TypeScript**        | Статическая типизация                |
+| **Express 5**         | HTTP-сервер и REST API               |
+| **Prisma 7**          | ORM                                  |
+| **PostgreSQL 17**     | Реляционная база данных              |
+| **Zod**               | Валидация входящих данных            |
+| **Vitest**            | Тестирование                         |
+| **Supertest**         | Тестирование HTTP API                |
+| **Swagger / OpenAPI** | Документирование API                 |
+| **Docker**            | Контейнеризация                      |
+| **Docker Compose**    | Управление локальной инфраструктурой |
 
 ---
 
-## Project Structure
+## Возможности
 
-```text
-express-app/
-│
-├── prisma/
-│   ├── migrations/
-│   └── schema.prisma
-│
-├── src/
-│   ├── controllers/
-│   │   └── user.controller.ts
-│   │
-│   ├── errors/
-│   │   └── app.error.ts
-│   │
-│   ├── lib/
-│   │   └── test-prisma.ts
-│   │
-│   ├── middleware/
-│   │   ├── error.middleware.ts
-│   │   └── validate.middleware.ts
-│   │
-│   ├── routes/
-│   │   └── user.routes.ts
-│   │
-│   ├── schemas/
-│   │   ├── user-query.schema.ts
-│   │   └── user.schema.ts
-│   │
-│   ├── swagger/
-│   │   └── swagger.ts
-│   │
-│   ├── tests/
-│   │   ├── helpers/
-│   │   │   └── user.helper.ts
-│   │   ├── setup.ts
-│   │   └── user.test.ts
-│   │
-│   ├── utils/
-│   │   └── async-handler.ts
-│   │
-│   ├── app.ts
-│   └── index.ts
-│
-├── .env
-├── .gitignore
-├── Dockerfile
-├── docker-compose.yml
-├── package.json
-├── prisma.config.ts
-├── tsconfig.json
-├── vitest.config.ts
-└── README.md
-```
+- CRUD-операции с пользователями
+- Валидация запросов с помощью Zod
+- Централизованная обработка ошибок
+- Пользовательские ошибки приложения
+- Обработка ошибок Prisma
+- Защита от создания пользователей с дублирующимся email
+- Пагинация
+- Поиск пользователей по имени или email
+- Сортировка пользователей
+- Автоматические API-тесты
+- Swagger / OpenAPI документация
+- PostgreSQL в Docker
+- Production Docker-образ с multi-stage build
+- Проверка типов TypeScript
+- Production-сборка
 
 ---
 
-## API Endpoints
+# API Endpoints
 
-### Users
+## Пользователи
 
-| Method   | Endpoint     | Description         |
-| -------- | ------------ | ------------------- |
-| `GET`    | `/users`     | Get paginated users |
-| `GET`    | `/users/:id` | Get user by ID      |
-| `POST`   | `/users`     | Create user         |
-| `PATCH`  | `/users/:id` | Update user         |
-| `DELETE` | `/users/:id` | Delete user         |
+| Метод    | Endpoint     | Описание                                   |
+| -------- | ------------ | ------------------------------------------ |
+| `GET`    | `/users`     | Получить список пользователей с пагинацией |
+| `GET`    | `/users/:id` | Получить пользователя по ID                |
+| `POST`   | `/users`     | Создать пользователя                       |
+| `PATCH`  | `/users/:id` | Обновить пользователя                      |
+| `DELETE` | `/users/:id` | Удалить пользователя                       |
 
 ---
 
-## API Examples
+# Примеры API
 
-### Create User
+## Создание пользователя
+
+### Запрос
 
 ```http
 POST /users
 Content-Type: application/json
 ```
-
-Request:
 
 ```json
 {
@@ -134,7 +76,7 @@ Request:
 }
 ```
 
-Response:
+### Ответ
 
 ```json
 {
@@ -146,13 +88,13 @@ Response:
 
 ---
 
-### Get Users
+## Получение пользователей
 
 ```http
 GET /users
 ```
 
-Example response:
+### Пример ответа
 
 ```json
 {
@@ -174,25 +116,25 @@ Example response:
 
 ---
 
-### Pagination
+## Пагинация
 
-The users endpoint supports pagination:
+Endpoint пользователей поддерживает пагинацию:
 
 ```http
 GET /users?page=1&limit=10
 ```
 
-Available parameters:
+### Доступные параметры
 
-| Parameter | Type            | Default | Description              |
-| --------- | --------------- | ------: | ------------------------ |
-| `page`    | integer         |     `1` | Page number              |
-| `limit`   | integer         |    `10` | Number of users per page |
-| `search`  | string          |       — | Search by name or email  |
-| `sort`    | `name \| email` |  `name` | Sorting field            |
-| `order`   | `asc \| desc`   |   `asc` | Sorting direction        |
+| Параметр | Тип             | По умолчанию | Описание                             |
+| -------- | --------------- | -----------: | ------------------------------------ |
+| `page`   | integer         |          `1` | Номер страницы                       |
+| `limit`  | integer         |         `10` | Количество пользователей на странице |
+| `search` | string          |            — | Поиск по имени или email             |
+| `sort`   | `name \| email` |       `name` | Поле для сортировки                  |
+| `order`  | `asc \| desc`   |        `asc` | Направление сортировки               |
 
-Example:
+### Пример
 
 ```http
 GET /users?page=2&limit=5&search=john&sort=email&order=desc
@@ -200,7 +142,7 @@ GET /users?page=2&limit=5&search=john&sort=email&order=desc
 
 ---
 
-### Get User
+## Получение пользователя
 
 ```http
 GET /users/1
@@ -208,14 +150,14 @@ GET /users/1
 
 ---
 
-### Update User
+## Обновление пользователя
+
+### Запрос
 
 ```http
 PATCH /users/1
 Content-Type: application/json
 ```
-
-Request:
 
 ```json
 {
@@ -225,13 +167,13 @@ Request:
 
 ---
 
-### Delete User
+## Удаление пользователя
 
 ```http
 DELETE /users/1
 ```
 
-Successful response:
+### Успешный ответ
 
 ```http
 204 No Content
@@ -239,29 +181,33 @@ Successful response:
 
 ---
 
-## Validation
+# Валидация
 
-Request validation is implemented using **Zod**.
+Валидация входящих данных реализована с помощью **Zod**.
 
-Example validation rules:
+Основные правила валидации:
 
-- `name` must contain at least 2 characters
-- `email` must be a valid email address
-- pagination parameters have minimum and maximum values
-- sorting fields are restricted to supported values
-- sorting direction is restricted to `asc` / `desc`
+- `name` должен содержать минимум 2 символа
+- `email` должен иметь корректный формат email
+- параметры пагинации имеют минимальные и максимальные значения
+- поля сортировки ограничены поддерживаемыми значениями
+- направление сортировки ограничено значениями `asc` / `desc`
 
-Invalid requests return an appropriate `400 Bad Request` response.
+Некорректные запросы возвращают соответствующий ответ:
+
+```http
+400 Bad Request
+```
 
 ---
 
-## Error Handling
+# Обработка ошибок
 
-The application uses centralized error handling through `errorMiddleware`.
+Приложение использует **централизованную обработку ошибок** через `errorMiddleware`.
 
-Application errors are represented by `AppError`.
+Ошибки приложения представлены классом `AppError`.
 
-Supported application error codes:
+### Поддерживаемые коды ошибок
 
 ```text
 USER_NOT_FOUND
@@ -270,18 +216,16 @@ VALIDATION_ERROR
 INTERNAL_ERROR
 ```
 
-Prisma errors are also handled centrally.
+Ошибки Prisma также обрабатываются централизованно.
 
-For example:
+| Ошибка             | HTTP Status | Значение                  |
+| ------------------ | ----------: | ------------------------- |
+| `P2025`            |       `404` | Пользователь не найден    |
+| `P2002`            |       `409` | Email уже существует      |
+| Ошибка валидации   |       `400` | Некорректный запрос       |
+| Неизвестная ошибка |       `500` | Внутренняя ошибка сервера |
 
-| Error            | HTTP Status | Meaning               |
-| ---------------- | ----------: | --------------------- |
-| `P2025`          |       `404` | User not found        |
-| `P2002`          |       `409` | Email already exists  |
-| Validation error |       `400` | Invalid request       |
-| Unknown error    |       `500` | Internal server error |
-
-Example:
+### Пример
 
 ```json
 {
@@ -291,53 +235,51 @@ Example:
 
 ---
 
-## Swagger / OpenAPI
+# Swagger / OpenAPI
 
-The API is documented using **Swagger UI**.
+API документируется с помощью **Swagger UI**.
 
-After starting the application, documentation is available at:
+После запуска приложения документация доступна по адресу:
 
-```text
-http://localhost:3000/api-docs
-```
+**http://localhost:3000/api-docs**
 
-Swagger provides:
+Swagger предоставляет:
 
-- available endpoints
-- request parameters
-- request bodies
-- response schemas
+- список доступных endpoints
+- параметры запросов
+- тела запросов
+- схемы ответов
 - HTTP status codes
-- interactive API testing
+- возможность интерактивного тестирования API
 
 ---
 
-## Testing
+# Тестирование
 
-The project uses:
+Для тестирования используются:
 
-- **Vitest** — test runner
-- **Supertest** — HTTP API testing
-- separate PostgreSQL database for tests
+- **Vitest** — тестовый раннер
+- **Supertest** — тестирование HTTP API
+- отдельная PostgreSQL база данных для тестов
 
-Covered scenarios include:
+Покрыты следующие сценарии:
 
-- creating users
-- preventing duplicate emails
-- retrieving users
-- retrieving a user by ID
-- handling missing users
-- updating users
-- deleting users
-- handling deletion of a non-existent user
+- создание пользователя
+- предотвращение создания пользователя с дублирующимся email
+- получение списка пользователей
+- получение пользователя по ID
+- обработка отсутствующего пользователя
+- обновление пользователя
+- удаление пользователя
+- попытка удаления несуществующего пользователя
 
-Run tests:
+### Запуск тестов
 
 ```bash
 npm test
 ```
 
-Run tests once:
+### Однократный запуск тестов
 
 ```bash
 npm test -- --run
@@ -345,21 +287,21 @@ npm test -- --run
 
 ---
 
-## Type Checking
+# Проверка типов
 
-TypeScript type checking can be executed with:
+Проверка типов TypeScript выполняется командой:
 
 ```bash
 npm run typecheck
 ```
 
-The project also supports a production TypeScript build:
+Также проект поддерживает production-сборку TypeScript:
 
 ```bash
 npm run build
 ```
 
-Compiled files are generated in:
+Скомпилированные файлы находятся в:
 
 ```text
 dist/
@@ -367,43 +309,45 @@ dist/
 
 ---
 
-## Environment Variables
+# Переменные окружения
 
-Create a `.env` file in the project root:
+Создайте файл `.env` в корне проекта:
 
 ```env
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/express_app"
 ```
 
-For the test database:
+Для тестовой базы данных:
 
 ```env
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/backend_practice_test"
 ```
 
-> **Do not commit `.env` files or database credentials to Git.**
+**Не добавляйте `.env` и данные для подключения к базе данных в Git.**
 
 ---
 
-## Database
+# База данных
 
-PostgreSQL is used as the primary database.
+В качестве основной базы данных используется **PostgreSQL**.
 
-The project uses **Prisma ORM** to interact with PostgreSQL.
+Для взаимодействия с PostgreSQL используется **Prisma ORM**.
 
-Generate Prisma Client:
+### Генерация Prisma Client
 
 ```bash
 npx prisma generate
 ```
 
-Create and apply a development migration:
+### Создание и применение миграции
 
 ```bash
 npx prisma migrate dev
 ```
 
-Check the database using Prisma Studio:
+### Prisma Studio
+
+Для просмотра и управления данными через Prisma Studio:
 
 ```bash
 npx prisma studio
@@ -411,46 +355,49 @@ npx prisma studio
 
 ---
 
-## Docker
+# Docker
 
-The project includes a `Dockerfile` and `docker-compose.yml`.
+Проект содержит:
 
-Docker Compose starts:
+- `Dockerfile`
+- `docker-compose.yml`
+
+Docker Compose запускает:
 
 - PostgreSQL
 - Express API
 
-Start the application:
+### Запуск приложения
 
 ```bash
 docker compose up --build
 ```
 
-Run in detached mode:
+### Запуск в фоновом режиме
 
 ```bash
 docker compose up -d --build
 ```
 
-Check running containers:
+### Проверка контейнеров
 
 ```bash
 docker compose ps
 ```
 
-View API logs:
+### Логи API
 
 ```bash
 docker compose logs api
 ```
 
-View PostgreSQL logs:
+### Логи PostgreSQL
 
 ```bash
 docker compose logs postgres
 ```
 
-Stop the application:
+### Остановка приложения
 
 ```bash
 docker compose down
@@ -458,88 +405,85 @@ docker compose down
 
 ---
 
-## Docker Architecture
+# Docker Architecture
 
-The application uses a multi-stage Docker build.
+Приложение использует **multi-stage Docker build**.
 
-### Builder stage
+## Builder stage
 
-The builder:
+На этапе сборки Docker:
 
-1. installs dependencies
-2. copies the source code
-3. generates Prisma Client
-4. compiles TypeScript
+1. устанавливает зависимости
+2. копирует исходный код
+3. генерирует Prisma Client
+4. компилирует TypeScript
+5. создаёт production-сборку приложения
 
-### Production stage
+## Production stage
 
-The production image:
+Production-образ:
 
-1. installs only production dependencies
-2. copies the compiled application
-3. copies Prisma Client
-4. starts the Node.js application
+1. устанавливает только production-зависимости
+2. копирует скомпилированное приложение
+3. копирует Prisma Client
+4. запускает Node.js приложение
 
-This keeps the production image smaller and prevents development dependencies from being included in the final runtime image.
+Такой подход позволяет сделать production-образ компактнее и не включать development-зависимости в финальный runtime-образ.
 
 ---
 
-## Local Development
+# Локальная разработка
 
-### 1. Install dependencies
+## 1. Установка зависимостей
 
 ```bash
 npm install
 ```
 
-### 2. Start PostgreSQL
+## 2. Запуск PostgreSQL
 
 ```bash
 docker compose up postgres -d
 ```
 
-### 3. Apply Prisma migrations
+## 3. Применение Prisma migrations
 
 ```bash
 npx prisma migrate dev
 ```
 
-### 4. Start the development server
+## 4. Запуск development-сервера
 
 ```bash
 npm run dev
 ```
 
-The API will be available at:
+API будет доступен по адресу:
 
-```text
-http://localhost:3000
-```
+**http://localhost:3000**
 
-Swagger documentation:
+Swagger-документация:
 
-```text
-http://localhost:3000/api-docs
-```
+**http://localhost:3000/api-docs**
 
 ---
 
-## NPM Scripts
+# NPM Scripts
 
-| Command             | Description                  |
-| ------------------- | ---------------------------- |
-| `npm run dev`       | Start development server     |
-| `npm run build`     | Compile TypeScript           |
-| `npm run start`     | Start production build       |
-| `npm run test`      | Run Vitest                   |
-| `npm run typecheck` | Run TypeScript type checking |
-| `npm run lint`      | Run ESLint                   |
+| Команда             | Описание                   |
+| ------------------- | -------------------------- |
+| `npm run dev`       | Запуск development-сервера |
+| `npm run build`     | Компиляция TypeScript      |
+| `npm run start`     | Запуск production-сборки   |
+| `npm run test`      | Запуск Vitest              |
+| `npm run typecheck` | Проверка типов TypeScript  |
+| `npm run lint`      | Запуск ESLint              |
 
 ---
 
-## Architecture
+# Архитектура
 
-The application follows a layered structure:
+Приложение использует **слоистую архитектуру**:
 
 ```text
 HTTP Request
@@ -563,53 +507,53 @@ HTTP Request
  PostgreSQL
 ```
 
-### Router
+## Router
 
-Responsible for:
+Отвечает за:
 
-- defining endpoints
-- connecting middleware
-- connecting controllers
+- определение endpoints
+- подключение middleware
+- подключение controllers
 
-### Middleware
+## Middleware
 
-Responsible for cross-cutting concerns such as:
+Отвечает за сквозные задачи приложения:
 
-- validation
-- error handling
-- asynchronous error forwarding
+- валидацию
+- обработку ошибок
+- передачу асинхронных ошибок
 
-### Controller
+## Controller
 
-Responsible for:
+Отвечает за:
 
-- processing HTTP requests
-- extracting parameters/body/query
-- calling application logic
-- returning HTTP responses
+- обработку HTTP-запросов
+- получение `params`, `body` и `query`
+- вызов application logic
+- формирование HTTP-ответов
 
-### Service
+## Service
 
-Responsible for:
+Отвечает за:
 
-- business logic
-- database operations
-- interaction with Prisma
+- бизнес-логику
+- операции с базой данных
+- взаимодействие с Prisma
 
-### Prisma
+## Prisma
 
-Responsible for:
+Отвечает за:
 
-- database access
-- queries
-- migrations
-- generated database client
+- доступ к базе данных
+- выполнение запросов
+- миграции
+- сгенерированный database client
 
 ---
 
-## Error Flow
+# Поток обработки ошибок
 
-Errors are handled centrally instead of duplicating `try/catch` logic inside every controller.
+Ошибки обрабатываются централизованно вместо дублирования `try/catch` в каждом controller.
 
 ```text
 Controller / Service
@@ -621,20 +565,31 @@ Controller / Service
         ▼
  errorMiddleware
         │
-        ├── AppError → known HTTP error
+        ├── AppError
+        │      ↓
+        │   известная HTTP-ошибка
         │
-        ├── Prisma error → mapped HTTP error
+        ├── Prisma error
+        │      ↓
+        │   преобразование в HTTP-ошибку
         │
-        └── Unknown error → 500
+        └── Unknown error
+               ↓
+              500
 ```
 
-This keeps controllers focused on HTTP logic and provides consistent API responses.
+Такой подход позволяет:
+
+- держать controllers сфокусированными на HTTP-логике
+- не дублировать обработку ошибок
+- получать единообразные API-ответы
+- централизованно обрабатывать ошибки Prisma
 
 ---
 
-## API Response Examples
+# Примеры API-ответов
 
-### `400 Bad Request`
+## 400 Bad Request
 
 ```json
 {
@@ -642,7 +597,7 @@ This keeps controllers focused on HTTP logic and provides consistent API respons
 }
 ```
 
-### `404 Not Found`
+## 404 Not Found
 
 ```json
 {
@@ -650,7 +605,7 @@ This keeps controllers focused on HTTP logic and provides consistent API respons
 }
 ```
 
-### `409 Conflict`
+## 409 Conflict
 
 ```json
 {
@@ -658,7 +613,7 @@ This keeps controllers focused on HTTP logic and provides consistent API respons
 }
 ```
 
-### `500 Internal Server Error`
+## 500 Internal Server Error
 
 ```json
 {
@@ -668,25 +623,25 @@ This keeps controllers focused on HTTP logic and provides consistent API respons
 
 ---
 
-## Project Goals
+# Цели проекта
 
-The main goal of this project is to practice backend development using a modern TypeScript stack and production-oriented development practices.
+Основная цель проекта — **практика backend-разработки с использованием современного TypeScript-стека и production-oriented подходов**.
 
-The project focuses on:
+Основные направления:
 
 - REST API design
 - TypeScript
 - Express architecture
-- database interaction
-- error handling
-- validation
-- automated testing
-- API documentation
+- взаимодействие с базой данных
+- обработка ошибок
+- валидация данных
+- автоматическое тестирование
+- API-документация
 - Docker
 - CI/CD
 
 ---
 
-## License
+# License
 
-This project is created for educational and portfolio purposes.
+Проект создан в **образовательных целях и для портфолио**.
