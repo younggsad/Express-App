@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect } from "vitest";
 import request from "supertest";
 
 import app from "../app.js";
@@ -173,13 +173,5 @@ describe("Users API", () => {
       message: "User not found",
       code: "USER_NOT_FOUND",
     });
-  });
-
-  describe("Users API", () => {
-    beforeEach(async () => {
-      await testPrisma.user.deleteMany();
-    });
-
-    it("POST /users should create user", async () => {});
   });
 });
