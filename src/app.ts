@@ -11,6 +11,14 @@ const app = express();
 // Парсинг JSON тела запроса
 app.use(express.json());
 
+// Health check
+app.get("/health", (_req, res) => {
+  res.status(200).json({
+    status: "ok",
+  });
+});
+
+// Swagger
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // API routes
