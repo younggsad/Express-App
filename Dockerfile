@@ -45,6 +45,10 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
 
+RUN chown -R node:node /app
+
+USER node
+
 EXPOSE 3000
 
 CMD ["sh", "-c", "npx prisma migrate deploy && node dist/index.js"]
