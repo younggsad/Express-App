@@ -1,11 +1,11 @@
 import { z } from "zod";
 
 export const userQuerySchema = z.object({
-  page: z.coerce.number().int().positive().default(1),
+  page: z.coerce.number().int().positive().max(10_000).default(1),
 
   limit: z.coerce.number().int().positive().max(100).default(10),
 
-  search: z.string().trim().optional(),
+  search: z.string().trim().max(100).optional(),
 
   sort: z.enum(["name", "email"]).default("name"),
 

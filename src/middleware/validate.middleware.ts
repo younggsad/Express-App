@@ -1,24 +1,19 @@
 import type { Request, Response, NextFunction } from "express";
-import type { ZodTypeAny } from "zod";
+import { z } from "zod";
 
 export const validate = (
-  schema: ZodTypeAny,
+  schema: z.ZodType,
   target: "body" | "query" | "params" = "body",
 ) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const result = schema.safeParse(req[target]);
 
     if (!result.success) {
-      return res.status(400).json({
-        message: "Validation error",
-        errors: result.error.issues.map((issue) => ({
-          field: issue.path.join("."),
-          message: issue.message,
-        })),
-      });
+      return next(result.error);
     }
 
-    res.locals.validated = result.data;
+    res.locals.validated ??= {};
+    res.locals.validated[target] = result.data;
 
     next();
   };

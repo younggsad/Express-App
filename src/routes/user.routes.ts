@@ -1,9 +1,15 @@
 import { Router } from "express";
+
 import { UserController } from "../controllers/user.controller.js";
+
 import { asyncHandler } from "../utils/async-handler.js";
+
 import { validate } from "../middleware/validate.middleware.js";
+
 import { createUserSchema, updateUserSchema } from "../schemas/user.schema.js";
 import { userQuerySchema } from "../schemas/user-query.schema.js";
+import { userParamsSchema } from "../schemas/user-params.schema.js";
+import { writeRateLimiter } from "../middleware/rate-limit.middleware.js";
 
 const router = Router();
 const userController = new UserController();
@@ -134,7 +140,11 @@ router.get(
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/:id", asyncHandler(userController.getUserById));
+router.get(
+  "/:id",
+  validate(userParamsSchema, "params"),
+  asyncHandler(userController.getUserById),
+);
 
 /**
  * @openapi
@@ -173,6 +183,7 @@ router.get("/:id", asyncHandler(userController.getUserById));
  */
 router.post(
   "/",
+  writeRateLimiter,
   validate(createUserSchema),
   asyncHandler(userController.createUser),
 );
@@ -219,7 +230,12 @@ router.post(
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.delete("/:id", asyncHandler(userController.deleteUser));
+router.delete(
+  "/:id",
+  writeRateLimiter,
+  validate(userParamsSchema, "params"),
+  asyncHandler(userController.deleteUser),
+);
 
 /**
  * @openapi
@@ -283,7 +299,9 @@ router.delete("/:id", asyncHandler(userController.deleteUser));
  */
 router.patch(
   "/:id",
-  validate(updateUserSchema),
+  writeRateLimiter,
+  validate(userParamsSchema, "params"),
+  validate(updateUserSchema, "body"),
   asyncHandler(userController.updateUser),
 );
 
