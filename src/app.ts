@@ -1,4 +1,5 @@
 import express from "express";
+import helmet from "helmet";
 
 import userRoutes from "./routes/user.routes.js";
 import { errorMiddleware } from "./middleware/error.middleware.js";
@@ -10,8 +11,10 @@ import healthRoutes from "./routes/health.routes.js";
 
 const app = express();
 
+app.use(helmet());
+
 // Парсинг JSON тела запроса
-app.use(express.json());
+app.use(express.json({ limit: "10kb" }));
 
 //Base page
 app.get("/", (_req, res) => {

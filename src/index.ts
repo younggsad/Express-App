@@ -10,7 +10,15 @@ const server = app.listen(PORT, () => {
 });
 
 // Graceful shutdown
+let isShuttingDown = false;
+
 const shutdown = async () => {
+  if (isShuttingDown) {
+    return;
+  }
+
+  isShuttingDown = true;
+
   console.log("Shutting down server...");
 
   server.close(async () => {
