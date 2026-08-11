@@ -1,8 +1,8 @@
 import type { Request, Response, NextFunction } from "express";
-import type { ZodTypeAny } from "zod";
+import { z } from "zod";
 
 export const validate = (
-  schema: ZodTypeAny,
+  schema: z.ZodType,
   target: "body" | "query" | "params" = "body",
 ) => {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -18,7 +18,8 @@ export const validate = (
       });
     }
 
-    res.locals.validated = result.data;
+    res.locals.validated ??= {};
+    res.locals.validated[target] = result.data;
 
     next();
   };

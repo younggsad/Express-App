@@ -1,5 +1,6 @@
 import express from "express";
 import helmet from "helmet";
+import cors from "cors";
 
 import userRoutes from "./routes/user.routes.js";
 import { errorMiddleware } from "./middleware/error.middleware.js";
@@ -12,6 +13,14 @@ import healthRoutes from "./routes/health.routes.js";
 const app = express();
 
 app.use(helmet());
+
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN,
+    methods: ["GET", "POST", "PATCH", "DELETE"],
+    allowedHeaders: ["Content-Type"],
+  }),
+);
 
 // Парсинг JSON тела запроса
 app.use(express.json({ limit: "10kb" }));
