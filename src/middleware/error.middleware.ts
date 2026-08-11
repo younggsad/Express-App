@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import { Prisma } from "../generated/prisma/client.js";
+import { z } from "zod";
 
 import { AppError } from "../errors/app.error.js";
 import { ErrorCodes } from "../errors/error-codes.js";
@@ -15,6 +16,18 @@ export const errorMiddleware = (
       success: false,
       message: error.message,
       code: error.code,
+    });
+  }
+
+  if (error instanceof z.ZodError) {
+    return res.status(400).json({
+      success: false,
+      message: "Validation error",
+      code: ErrorCodes.VALIDATION_ERROR,
+      errors: error.issues.map((issue) => ({
+        field: issue.path.join("."),
+        message: issue.message,
+      })),
     });
   }
 

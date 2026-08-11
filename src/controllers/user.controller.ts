@@ -7,32 +7,36 @@ const userService = new UserService();
 export class UserController {
   getUsers = async (_req: Request, res: Response) => {
     const query = res.locals.validated as UserQueryDto;
-
     const users = await userService.getAll(query);
 
     return res.json(users);
   };
 
-  getUserById = async (req: Request, res: Response) => {
-    const user = await userService.getById(Number(req.params.id));
+  getUserById = async (_req: Request, res: Response) => {
+    const { id } = res.locals.validated.params;
+    const user = await userService.getById(id);
 
     return res.json(user);
   };
 
-  createUser = async (req: Request, res: Response) => {
-    const user = await userService.create(req.body);
+  createUser = async (_req: Request, res: Response) => {
+    const data = res.locals.validated.body;
+    const user = await userService.create(data);
 
     return res.status(201).json(user);
   };
 
-  updateUser = async (req: Request, res: Response) => {
-    const user = await userService.update(Number(req.params.id), req.body);
+  updateUser = async (_req: Request, res: Response) => {
+    const { id } = res.locals.validated.params;
+    const data = res.locals.validated.body;
+    const user = await userService.update(id, data);
 
     return res.json(user);
   };
 
-  deleteUser = async (req: Request, res: Response) => {
-    await userService.delete(Number(req.params.id));
+  deleteUser = async (_req: Request, res: Response) => {
+    const { id } = res.locals.validated.params;
+    await userService.delete(id);
 
     return res.sendStatus(204);
   };
