@@ -9,13 +9,7 @@ export const validate = (
     const result = schema.safeParse(req[target]);
 
     if (!result.success) {
-      return res.status(400).json({
-        message: "Validation error",
-        errors: result.error.issues.map((issue) => ({
-          field: issue.path.join("."),
-          message: issue.message,
-        })),
-      });
+      return next(result.error);
     }
 
     res.locals.validated ??= {};

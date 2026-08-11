@@ -9,6 +9,7 @@ import { validate } from "../middleware/validate.middleware.js";
 import { createUserSchema, updateUserSchema } from "../schemas/user.schema.js";
 import { userQuerySchema } from "../schemas/user-query.schema.js";
 import { userParamsSchema } from "../schemas/user-params.schema.js";
+import { writeRateLimiter } from "../middleware/rate-limit.middleware.js";
 
 const router = Router();
 const userController = new UserController();
@@ -182,6 +183,7 @@ router.get(
  */
 router.post(
   "/",
+  writeRateLimiter,
   validate(createUserSchema),
   asyncHandler(userController.createUser),
 );
@@ -230,6 +232,7 @@ router.post(
  */
 router.delete(
   "/:id",
+  writeRateLimiter,
   validate(userParamsSchema, "params"),
   asyncHandler(userController.deleteUser),
 );
@@ -296,6 +299,7 @@ router.delete(
  */
 router.patch(
   "/:id",
+  writeRateLimiter,
   validate(userParamsSchema, "params"),
   validate(updateUserSchema, "body"),
   asyncHandler(userController.updateUser),
