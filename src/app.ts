@@ -15,7 +15,7 @@ const app = express();
 
 app.use(helmet());
 
-//CORS
+// CORS
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -34,14 +34,10 @@ app.use(
   }),
 );
 
-if (process.env.NODE_ENV !== "test") {
-  app.use(apiRateLimiter);
-}
-
 // Парсинг JSON тела запроса
 app.use(express.json({ limit: "10kb" }));
 
-//Base page
+// Base page
 app.get("/", (_req, res) => {
   res.status(200).json({
     name: "Express App API",
@@ -52,15 +48,16 @@ app.get("/", (_req, res) => {
   });
 });
 
-// Health check
+// Health check — БЕЗ rate limit
 app.use("/health", healthRoutes);
-
-app.use(apiRateLimiter);
 
 // Swagger
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// API routes
+// Rate limit — только API
+app.use("/users", apiRateLimiter, userRoutes);
+
+// Rate limit только для API
 app.use("/users", userRoutes);
 
 // Global error handler
